@@ -10,13 +10,13 @@ class Console:
         print(text)
 
     def info(self, text):
-        def line(name = ""):
-            return name + "".join(repeat("-", 64 - len(name)))
+        def line(name = ''):
+            return name + ''.join(repeat('-', 64 - len(name)))
 
         time.sleep(1)
         print(text)
         for player in self.players:
             print(line(player.name))
-            print("hand: " + ",".join(map(lambda card: card.info, player.hand)))
-            print("score: " + str(player.score))
+            print('hand: ' + ','.join(map(lambda card: card.info, player.hand)))
+            print('score: ' + str(player.score))
             print(line())

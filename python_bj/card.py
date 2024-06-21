@@ -17,10 +17,10 @@ class Card:
     @property
     def info(self):
         mark = {
-            "spades": "♠",
-            "hearts": "♥",
-            "diams":  "♦",
-            "clubs":  "♣"
+            'spades': '♠',
+            'hearts': '♥',
+            'diams':  '♦',
+            'clubs':  '♣'
         }
         if self.is_open:
             return mark[self._suit] + str(self._rank)
