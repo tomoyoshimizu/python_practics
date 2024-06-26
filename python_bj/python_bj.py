@@ -1,5 +1,5 @@
 from console import Console
-from player import Player
+from person import Player, Dealer
 from card import Deck, Card
 
 from itertools import product
@@ -9,14 +9,14 @@ class Game:
         suits = ['spades', 'hearts', 'diams', 'clubs']
         ranks = list(range(2, 11)) + ['J', 'Q', 'K', 'A']
         self.deck = Deck([Card(*card) for card in product(suits, ranks)])
-        self.dealer = Player('DEALER')
-        self.you = Player('YOU')
+        self.dealer = Dealer()
+        self.you = Player()
         self.console = Console([self.dealer, self.you])
 
     def start(self):
         bet = 0
         while True:
-            command = int(input('Place your Bet. [YOU have ' + str(self.you.chip) + ' chips.]: '))
+            command = int(input('Place your Bet. [You have ' + str(self.you.chip) + ' chips.]: '))
             if self.you.chip >= command > 0:
                 bet = command
                 self.you.chip -= bet
@@ -37,24 +37,24 @@ class Game:
         self.console.info('DEALER dealt cards.')
 
         if self.you.score == 21:
-            self.console.message('YOU get natural 21!')
+            self.console.message('You get natural 21!')
             result['you'] = 22
         else:
             while True:
                 command = input('Would you like to draw another card? [y(hit)/n(stand)]: ').lower()
                 if command in ['y', 'yes', 'hit']:
                     self.you.draw(self.deck, 1, True)
-                    self.console.info('YOU draw card.')
+                    self.console.info('You draw card.')
                     if self.you.score == 21:
-                        self.console.message('YOU get 21!')
+                        self.console.message('You get 21!')
                         result['you'] = 21
                         break
                     elif self.you.score > 21:
-                        self.console.message('YOU bust!')
+                        self.console.message('You bust!')
                         result['you'] = -1
                         break
                 elif command in ['n', 'no', 'stand']:
-                    self.console.message('YOU stand.')
+                    self.console.message('You stand.')
                     result['you'] = self.you.score
                     break
                 else:
@@ -87,15 +87,15 @@ class Game:
             self.console.message('Draw game.')
             self.you.chip += bet
         elif result['dealer'] < result['you']:
-            self.console.message('YOU win!')
+            self.console.message('You win!')
             if result['you'] >= 21:
                 self.you.chip += round(bet * 2.5)
             else:
                 self.you.chip += bet * 2
         else:
-            self.console.message('YOU lose.')
+            self.console.message('You lose.')
 
-        print('[YOU have ' + str(self.you.chip) + 'chips.]')
+        print('[You have ' + str(self.you.chip) + 'chips.]')
         self.dealer.return_cards(self.deck)
         self.you.return_cards(self.deck)
 

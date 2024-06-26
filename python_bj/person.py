@@ -1,8 +1,7 @@
-class Player:
+class Person:
     def __init__(self, name):
         self.name = name
         self.hand = []
-        self.chip = 500
 
     @property
     def score(self):
@@ -32,11 +31,22 @@ class Player:
                 draw_card.is_open = is_open
                 self.hand.append(draw_card)
 
-    def hole_card_open(self):
-        for card in self.hand:
-            card.is_open = True
-
     def return_cards(self, deck):
         for card in self.hand:
             deck.cards.append(card)
         self.hand.clear()
+
+
+class Player(Person):
+    def __init__(self, name = 'YOU'):
+        super().__init__(name)
+        self.chip = 500
+
+
+class Dealer(Person):
+    def __init__(self, name = 'DEALER'):
+        super().__init__(name)
+
+    def hole_card_open(self):
+        for card in self.hand:
+            card.is_open = True
